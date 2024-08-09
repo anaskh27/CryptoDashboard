@@ -6,10 +6,12 @@ export async function fetchCoinData(coin) {
     }
     const data = await response.json();
     return {
-      price: parseFloat(data.data.priceUsd),
-      percentage: parseFloat(data.data.changePercent24Hr),
-      chartData: await fetchChartData(coin),
+      id: coin,
+      name: data.data.name,
       symbol: data.data.symbol,
+      price: Math.floor(parseFloat(data.data.priceUsd)),
+      percentage: Math.floor(parseFloat(data.data.changePercent24Hr)),
+      chartData: await fetchChartData(coin),
     };
   } catch (error) {
     console.error(error);

@@ -60,28 +60,30 @@ export function DayGraph(props) {
   console.log("selectedCoin", selectedCoin);
 
   return (
-    <div className=" w-[734px] h-[441px] bg-[#1B2028]  text-white rounded-2xl overflow-hidden">
+    <div className=" w-full h-[441px] bg-[#1B2028]  text-white rounded-2xl overflow-hidden">
       <Card className="border-none">
         <CardHeader className=" flex-row items-center justify-between">
-          <div className="flex  items-center">
+          <div className="flex  items-center gap-2">
             <img
               src={getIconPath(selectedCoin?.name)}
               alt={`${selectedCoin?.name} icon`}
-              className="w-6 h-6 mr-2"
+              className="w-10 h-10 mr-2"
             />
             <CardTitle>
-              {selectedCoin?.name}- $ {Math.floor(selectedCoin?.price)}
+              {selectedCoin?.name} {selectedCoin?.symbol} $
+              {Math.floor(selectedCoin?.price)}
             </CardTitle>
+            <CardDescription
+              className={`text-lg mt-2 mr-4 ${
+                selectedCoin?.percentage >= 0
+                  ? "text-green-500"
+                  : "text-red-500"
+              }`}
+            >
+              {Number(selectedCoin?.percentage).toFixed(2)}%
+            </CardDescription>
           </div>
 
-          <CardDescription
-            className={`text-lg mt-2 ${
-              selectedCoin?.percentage >= 0 ? "text-green-500" : "text-red-500"
-            }`}
-          >
-            {selectedCoin?.symbol}
-            {Number(selectedCoin?.percentage).toFixed(2)}%
-          </CardDescription>
           <div>
             <Select onValueChange={handleValueChange}>
               <SelectTrigger className="w-[180px] ">

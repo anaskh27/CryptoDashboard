@@ -49,7 +49,7 @@ export default function Home() {
         </div>
       ) : (
         <>
-          <div className="flex flex-col items-center gap-2 sm:flex sm:flex-row">
+          <div className="flex flex-col items-center gap-2 sm:flex md:flex-row">
             {cryptoData.map((coin, index) => (
               <CoinCard
                 key={index}
@@ -65,7 +65,7 @@ export default function Home() {
               />
             ))}
           </div>
-          <div className="mt-8 flex gap-4">
+          <div className="mt-8 flex  flex-col lg:flex-row  gap-4 w-full ">
             <div className="flex flex-col gap-4">
               <CreditCard
                 cardNumber="3232 4763 7246 7430"

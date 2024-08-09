@@ -51,7 +51,7 @@ export function CoinCard(props) {
         <p>{symbol}</p>
       </div>
       <div className="flex justify-between  p-4 ">
-        <div className="flex flex-col items-start gap-4">
+        <div className="flex flex-col items-start gap-8">
           <p className="text-lg font-semibold">${Math.floor(price)}</p>
           <p className={`text-sm ${percentageClass}`}>
             {Number(percentage).toFixed(2)}%
