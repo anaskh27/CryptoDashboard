@@ -60,9 +60,9 @@ export function DayGraph(props) {
   console.log("selectedCoin", selectedCoin);
 
   return (
-    <div className=" w-full h-[441px] bg-[#1B2028]  text-white rounded-2xl overflow-hidden">
+    <div className=" w-full h-[441px]  bg-[#1B2028]  text-white rounded-2xl overflow-hidden">
       <Card className="border-none">
-        <CardHeader className=" flex-row items-center justify-between">
+        <CardHeader className="sm:flex-row items-center justify-between">
           <div className="flex  items-center gap-2">
             <img
               src={getIconPath(selectedCoin?.name)}
