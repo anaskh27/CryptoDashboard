@@ -1,17 +1,17 @@
-export async function fetchCoinData(coin) {
+export async function fetchCoinData(coinId) {
   try {
-    const response = await fetch(`https://api.coincap.io/v3/assets/${coin}`);
+    const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`);
     if (!response.ok) {
-      throw new Error(`Failed to fetch data for ${coin}`);
+      throw new Error(`Failed to fetch data for ${coinId}`);
     }
     const data = await response.json();
     return {
-      id: coin,
-      name: data.data.name,
-      symbol: data.data.symbol,
-      price: Math.floor(parseFloat(data.data.priceUsd)),
-      percentage: Math.floor(parseFloat(data.data.changePercent24Hr)),
-      chartData: await fetchChartData(coin),
+      id: coinId,
+      name: data.name,
+      symbol: data.symbol.toUpperCase(),
+      price: Math.floor(data.market_data.current_price.usd),
+      percentage: Math.floor(data.market_data.price_change_percentage_24h),
+      chartData: await fetchChartData(coinId),
     };
   } catch (error) {
     console.error(error);
@@ -19,21 +19,22 @@ export async function fetchCoinData(coin) {
   }
 }
 
-export async function fetchChartData(coin) {
+export async function fetchChartData(coinId) {
   try {
     const response = await fetch(
-      `https://api.coincap.io/v3/assets/${coin}/history?interval=d1`
+      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=30`
     );
     if (!response.ok) {
-      throw new Error(`Failed to fetch chart data for ${coin}`);
+      throw new Error(`Failed to fetch chart data for ${coinId}`);
     }
     const data = await response.json();
+
     return {
-      price: parseFloat(data.data[data.data.length - 1].priceUsd),
-      percentage: parseFloat(data.data[data.data.length - 1].changePercent24Hr),
-      chartData: data.data.map((entry) => ({
-        timestamp: entry.time,
-        price: parseFloat(entry.priceUsd),
+      price: parseFloat(data.prices[data.prices.length - 1][1]),
+      percentage: null, // CoinGecko doesn't return this in chart data endpoint
+      chartData: data.prices.map(([timestamp, price]) => ({
+        timestamp,
+        price,
       })),
     };
   } catch (error) {
