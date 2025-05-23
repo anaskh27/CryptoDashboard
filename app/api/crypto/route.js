@@ -1,13 +1,13 @@
-// app/api/crypto/route.js
 import fetch from "node-fetch";
 
-const BASE_URL = "https://api.coincap.io/v3";
+const BASE_URL = "https://api.coingecko.com/api/v3";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const coinId = searchParams.get("coinId") || "bitcoin";
-  const coinUrl = `${BASE_URL}/assets/${coinId}`;
-  const chartUrl = `${BASE_URL}/assets/${coinId}/history?interval=d1`;
+
+  const coinUrl = `${BASE_URL}/coins/${coinId}`;
+  const chartUrl = `${BASE_URL}/coins/${coinId}/market_chart?vs_currency=usd&days=30`;
 
   try {
     // Fetch coin data
@@ -24,19 +24,19 @@ export async function GET(request) {
     }
     const chartData = await chartResponse.json();
 
-    // Calculate percentage change
-    const currentPrice = parseFloat(coinData.data.priceUsd);
-    const initialPrice = parseFloat(chartData.data[0].priceUsd);
+    const prices = chartData.prices;
+    const currentPrice = prices[prices.length - 1][1];
+    const initialPrice = prices[0][1];
     const percentageChange =
       ((currentPrice - initialPrice) / initialPrice) * 100;
 
     // Transform chart data
-    const transformedChartData = chartData.data.map((entry) => ({
-      timestamp: new Date(entry.time).toLocaleDateString("en-US", {
+    const transformedChartData = prices.map(([timestamp, price]) => ({
+      timestamp: new Date(timestamp).toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
       }),
-      price: parseFloat(entry.priceUsd),
+      price: parseFloat(price),
     }));
 
     return new Response(
@@ -48,6 +48,7 @@ export async function GET(request) {
       { status: 200 }
     );
   } catch (error) {
+    console.error(error);
     return new Response(JSON.stringify({ error: "Failed to fetch data" }), {
       status: 500,
     });
