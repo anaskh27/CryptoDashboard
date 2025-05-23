@@ -1,6 +1,6 @@
 export async function fetchCoinData(coin) {
   try {
-    const response = await fetch(`https://api.coincap.io/v2/assets/${coin}`);
+    const response = await fetch(`https://api.coincap.io/v3/assets/${coin}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch data for ${coin}`);
     }
@@ -22,7 +22,7 @@ export async function fetchCoinData(coin) {
 export async function fetchChartData(coin) {
   try {
     const response = await fetch(
-      `https://api.coincap.io/v2/assets/${coin}/history?interval=d1`
+      `https://api.coincap.io/v3/assets/${coin}/history?interval=d1`
     );
     if (!response.ok) {
       throw new Error(`Failed to fetch chart data for ${coin}`);
