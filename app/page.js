@@ -1,9 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { CoinCard } from "@/components/card";
 import { CreditCard } from "@/components/creditCard";
 import { Portfolio } from "@/components/portfolio";
-import { useState, useEffect } from "react";
 import { fetchCoinData } from "./utils/api";
 import { DayGraph } from "@/components/dayGraph";
 import Loader from "@/components/customLoader/loader";
@@ -39,12 +39,10 @@ export default function Home() {
     return () => clearInterval(intervalId);
   }, []);
 
-  console.log("cryptoData", cryptoData);
-
   return (
     <main>
       {loading ? (
-        <div className="flex justify-center items-center min-h-screen ">
+        <div className="flex justify-center items-center min-h-screen">
           <Loader />
         </div>
       ) : (
@@ -65,7 +63,7 @@ export default function Home() {
               />
             ))}
           </div>
-          <div className="mt-8 flex  flex-col lg:flex-row  gap-4 w-full ">
+          <div className="mt-8 flex flex-col lg:flex-row gap-4 w-full">
             <div className="flex flex-col gap-4">
               <CreditCard
                 cardNumber="3232 4763 7246 7430"
