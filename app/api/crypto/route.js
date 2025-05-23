@@ -1,7 +1,7 @@
 // app/api/crypto/route.js
 import fetch from "node-fetch";
 
-const BASE_URL = "https://api.coincap.io/v2";
+const BASE_URL = "https://api.coincap.io/v3";
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
